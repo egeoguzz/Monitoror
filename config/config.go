@@ -23,9 +23,15 @@ type (
 	// NamedConfig contain backend Configuration
 	CoreConfig struct {
 		// --- General Configuration ---
-		Port      int
-		Address   string
-		DisableUI bool
+		Port                     int
+		Slack_Fault_Count        int
+		Address                  string
+		DisableUI                bool
+		Slack_Server_Success_Msg bool
+		Slack_Notification_Url   string
+		Slack_Notify_Channel     bool
+		Slack_Notification_Emoji bool
+		Slack_Mention_List       string
 
 		// --- Cache Configuration ---
 		// UpstreamCacheExpiration is used to respond before executing the request. Avoid overloading services.
@@ -54,6 +60,12 @@ type (
 var defaultConfig = &CoreConfig{
 	Port:                      8080,
 	Address:                   "0.0.0.0",
+	Slack_Notification_Url:    "nil",
+	Slack_Server_Success_Msg:  true,
+	Slack_Notify_Channel:      true,
+	Slack_Notification_Emoji:  false,
+	Slack_Mention_List:        "nil",
+	Slack_Fault_Count:         3,
 	DisableUI:                 false,
 	UpstreamCacheExpiration:   10000,
 	DownstreamCacheExpiration: 120000,

@@ -1,4 +1,5 @@
-//+build !faker
+//go:build !faker
+// +build !faker
 
 package usecase
 
@@ -28,6 +29,7 @@ func (pu *portUsecase) Port(params *models.PortParams) (tile *coreModels.Tile, e
 	if err == nil {
 		tile.Status = coreModels.SuccessStatus
 	} else {
+
 		tile.Status = coreModels.FailedStatus
 		err = nil
 	}

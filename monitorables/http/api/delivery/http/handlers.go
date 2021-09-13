@@ -3,11 +3,12 @@ package http
 import (
 	netHttp "net/http"
 
+	"github.com/labstack/echo/v4"
 	"github.com/monitoror/monitoror/internal/pkg/monitorable/delivery"
+	coreModels "github.com/monitoror/monitoror/models"
 	"github.com/monitoror/monitoror/monitorables/http/api"
 	"github.com/monitoror/monitoror/monitorables/http/api/models"
-
-	"github.com/labstack/echo/v4"
+	notify "github.com/monitoror/monitoror/notify"
 )
 
 //nolint:golint
@@ -23,12 +24,27 @@ func (h *HTTPDelivery) GetHTTPStatus(c echo.Context) error {
 	// Bind / Check Params
 	params := &models.HTTPStatusParams{}
 	if err := delivery.BindAndValidateParams(c, params); err != nil {
+
 		return err
 	}
 
 	tile, err := h.httpUsecase.HTTPStatus(params)
+
 	if err != nil {
+		if tile.Type == "HTTP-STATUS" {
+			notify.ParaMatcher(params.URL, true, err.Error())
+
+		}
+
+		//	notify.ParaMatcher(tile.Label, string(tile.Type), false)
 		return err
+	}
+	if tile.Type == "HTTP-STATUS" {
+		if tile.Status != coreModels.SuccessStatus {
+			notify.ParaMatcher(tile.Label, true, string(tile.Status))
+		} else {
+			notify.ParaMatcher(tile.Label, false, "")
+		}
 	}
 
 	return c.JSON(netHttp.StatusOK, tile)
@@ -43,7 +59,18 @@ func (h *HTTPDelivery) GetHTTPRaw(c echo.Context) error {
 
 	tile, err := h.httpUsecase.HTTPRaw(params)
 	if err != nil {
+		if tile.Type == "HTTP-RAW" {
+			notify.ParaMatcher(params.URL, true, err.Error())
+		}
+
 		return err
+	}
+	if tile.Type == "HTTP-RAW" {
+		if tile.Status != coreModels.SuccessStatus {
+			notify.ParaMatcher(tile.Label, true, string(tile.Status))
+		} else {
+			notify.ParaMatcher(tile.Label, false, "")
+		}
 	}
 
 	return c.JSON(netHttp.StatusOK, tile)

@@ -10,10 +10,12 @@ import (
 	"github.com/monitoror/monitoror/monitorables/pingdom"
 	"github.com/monitoror/monitoror/monitorables/port"
 	"github.com/monitoror/monitoror/monitorables/travisci"
+	notify "github.com/monitoror/monitoror/notify"
 	"github.com/monitoror/monitoror/store"
 )
 
 func RegisterMonitorables(s *store.Store) {
+
 	// ------------ AZURE DEVOPS ------------
 	s.Registry.RegisterMonitorable(azuredevops.NewMonitorable(s))
 	// ------------ GITHUB ------------
@@ -32,4 +34,14 @@ func RegisterMonitorables(s *store.Store) {
 	s.Registry.RegisterMonitorable(port.NewMonitorable(s))
 	// ------------ TRAVIS CI ------------
 	s.Registry.RegisterMonitorable(travisci.NewMonitorable(s))
+
+	if s.CoreConfig.Slack_Notification_Url != "nil" {
+		if s.CoreConfig.Slack_Mention_List != "nil" {
+
+			notify.Initialization_Notifier(s.CoreConfig.NamedConfigs["default"], s.CoreConfig.Slack_Notification_Url, s.CoreConfig.Slack_Mention_List, s.CoreConfig.Slack_Notification_Emoji, s.CoreConfig.Slack_Fault_Count, s.CoreConfig.Slack_Notify_Channel, s.CoreConfig.Slack_Server_Success_Msg)
+		} else {
+
+			notify.Initialization_Notifier(s.CoreConfig.NamedConfigs["default"], s.CoreConfig.Slack_Notification_Url, "nil", s.CoreConfig.Slack_Notification_Emoji, s.CoreConfig.Slack_Fault_Count, s.CoreConfig.Slack_Notify_Channel, s.CoreConfig.Slack_Server_Success_Msg)
+		}
+	}
 }

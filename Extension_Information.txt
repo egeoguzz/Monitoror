@@ -1,0 +1,36 @@
+.env Dosyası Kullanılabilecek Komutlar Listesi ve Yapıları
+
+1) MO_SLACK_EMOJI -> Default olarak false olan değer hareketli emojileri açıp kapatmaya yarıyor..
+Değerler: true / false 
+
+2) MO_SLACK_NOTIFICATION_URL -> Notification gönderilecek kanalın url’i bu şekilde tanımlanıyor eğer yoksa notification sistemi inaktif oluyor.
+Değer: Slack kanalının webhook url'i 
+Eğer bu parametre girilmez ise notification sistemi çalışmaz.
+
+3) MO_SLACK_MENTION_LIST -> Burada tanımlanan kişiler her şekilde bildirim alıyor.
+Tanımlanma şekli:  MO_SLACK_MENTION_LIST = ["X'in slack ID'si","Y'nin slack ID'si","Z'nin slack ID'si", ...]
+Her server için bir sorun ortaya çıktığında, her koşulda notfiy edilecek kişilerin listesi
+Eğer boş ise MO_SLACK_NOTIFY_CHANNEL değerine göre genel notify işlemi gerçekleştirir.
+
+4) MO_SLACK_FAULT_COUNT -> Kaç hatada bildirim sisteminin çalışacağını değiştirebiliyoruz. Default olarak 3.
+Değerler: integer 
+Boş bırakıldığında default değer 3'tür.
+Kaç denemede üst üste hata alırsa bildirim atacağını belirleyen değişkendir.
+Her deneme 5sn'de bir yapılır.
+
+5) MO_SLACK_NOTIFY_CHANNEL 
+Değerler: true/false
+Default olarak true değerinde.
+True ise MO_SLACK_MENTION_LIST boş bıraklırsa tüm channel notify edilir.
+False ise hiç kimse notify edilmez.
+
+6) MO_SLACK_SERVER_SUCCESS_MSG
+Değerler: true/false
+Default olarak true değerinde.
+True ise bozuk ortamlar düzeldiğinde bildirim gönderir.
+False ise ortamlar sadece bozulduğunda bildirim gönderir.
+
+config.json Dosyası Eklentileri
+"mention_list" json dosyasında her tile için tanımlanabilir.
+Gruplar için de aynı şekilde tanımlanır ve gruba bağlı olan her tile için mention list geçerli olur.
+Hem grupta hem de alt tile'ında bir tanımlama olur ise alt tile'da, grubun mention listinde olmayan değerler append edilir.

@@ -19,11 +19,11 @@ type (
 	}
 
 	TileConfig struct {
-		Type coreModels.TileType `json:"type" validate:"required"`
-
-		Label      string `json:"label,omitempty"`
-		RowSpan    *int   `json:"rowSpan,omitempty" validate:"omitempty,gt=0"`
-		ColumnSpan *int   `json:"columnSpan,omitempty" validate:"omitempty,gt=0"`
+		Type        coreModels.TileType `json:"type" validate:"required"`
+		MentionList string              `json:"mention_list,omitempty"`
+		Label       string              `json:"label,omitempty"`
+		RowSpan     *int                `json:"rowSpan,omitempty" validate:"omitempty,gt=0"`
+		ColumnSpan  *int                `json:"columnSpan,omitempty" validate:"omitempty,gt=0"`
 
 		Tiles           []TileConfig `json:"tiles,omitempty"`
 		URL             string       `json:"url,omitempty"`

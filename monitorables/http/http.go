@@ -1,4 +1,5 @@
-//+build !faker
+//go:build !faker
+// +build !faker
 
 package http
 

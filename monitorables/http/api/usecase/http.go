@@ -1,4 +1,5 @@
-//+build !faker
+//go:build !faker
+// +build !faker
 
 package usecase
 
@@ -167,7 +168,9 @@ func (hu *httpUsecase) get(url string) (*models.Response, error) {
 // if min/max are empty, use default value
 func checkStatusCode(params models.GenericParamsProvider, code int) bool {
 	min, max := params.GetStatusCodes()
+
 	return min <= code && code <= max
+
 }
 
 // matchRegex check if string match regex, if the regex match, try to extract first group

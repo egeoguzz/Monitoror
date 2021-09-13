@@ -30,6 +30,7 @@ func (_m *Usecase) Port(params *models.PortParams) (*monitorormodels.Tile, error
 	if rf, ok := ret.Get(1).(func(*models.PortParams) error); ok {
 		r1 = rf(params)
 	} else {
+
 		r1 = ret.Error(1)
 	}
 

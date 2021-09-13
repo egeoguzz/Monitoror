@@ -225,6 +225,7 @@ func (mi *monitorableInfo) StringifyEnabledVariants() string {
 			strVariants = fmt.Sprintf("[%svariants: [%s]]", strDefault, strings.Join(variantsWithoutDefault, ", "))
 		}
 	}
-
+	fmt.Printf("STARTUP.GO")
+	fmt.Printf(strVariants)
 	return strVariants
 }

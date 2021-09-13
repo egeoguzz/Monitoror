@@ -47,6 +47,7 @@ func (cu *configUsecase) Verify(configBag *models.ConfigBag) {
 
 	// Validate struct with "validate" and "available" tag
 	errors := validateStruct(configBag.Config, configBag.Config.Version)
+
 	if len(errors) > 0 {
 		for _, err := range errors {
 			// Convert validator.Error into ConfigError

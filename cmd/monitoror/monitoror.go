@@ -53,6 +53,7 @@ func newMonitororRootCommand(monitororCli *cli.MonitororCli) {
 
 func main() {
 	// Setup logger
+
 	log.SetPrefix("")
 	log.SetHeader("[${level}]")
 	log.SetLevel(log.INFO)
